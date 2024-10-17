@@ -5,12 +5,12 @@ import requests
 class Scraper:
     def __init__(self):
         self.__url = "https://www.oliveyoung.co.kr/store/display/getCategoryShop.do?dispCatNo=10000010001&t_page=%EB%93%9C%EB%A1%9C%EC%9A%B0_%EC%B9%B4%ED%85%8C%EA%B3%A0%EB%A6%AC&t_click=%EC%B9%B4%ED%85%8C%EA%B3%A0%EB%A6%AC%ED%83%AD_%EB%8C%80%EC%B9%B4%ED%85%8C%EA%B3%A0%EB%A6%AC&t_1st_category_type=%EB%8C%80_%EC%8A%A4%ED%82%A8%EC%BC%80%EC%96%B4"
-        self.__params = {
-                "dispCatNo":"10000010002",
-            "t_page":"%EB%93%9C%EB%A1%9C%EC%9A%B0_%EC%B9%B4%ED%85%8C%EA%B3%A0%EB%A6%AC",
-            "t_click":"%EC%B9%B4%ED%85%8C%EA%B3%A0%EB%A6%AC%ED%83%AD_%EB%8C%80%EC%B9%B4%ED%85%8C%EA%B3%A0%EB%A6%AC",
-            "t_1st_category_type":"%EB%8C%80_%EB%A9%94%EC%9D%B4%ED%81%AC%EC%97%85",
-        }
+        # self.__params = {
+        #         "dispCatNo":"10000010002",
+        #     "t_page":"%EB%93%9C%EB%A1%9C%EC%9A%B0_%EC%B9%B4%ED%85%8C%EA%B3%A0%EB%A6%AC",
+        #     "t_click":"%EC%B9%B4%ED%85%8C%EA%B3%A0%EB%A6%AC%ED%83%AD_%EB%8C%80%EC%B9%B4%ED%85%8C%EA%B3%A0%EB%A6%AC",
+        #     "t_1st_category_type":"%EB%8C%80_%EB%A9%94%EC%9D%B4%ED%81%AC%EC%97%85",
+        # }
 
         self.__headers = {
             "user-agent":"'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36'"
@@ -29,12 +29,14 @@ class Scraper:
             item_img_url = item_link.find("span",class_="img").find("img")["src"]
             item_name = item_link.findChild("p").find("span",class_="prd-name")
             
-
+            #test = item_link.find("p",class_="price")
+            #test2=test.findChild("span",class_="price-1")
+            # test3= test2.get_text(separator='', strip=True)
             item_price1_tag = item_link.find("p", class_="price").find("span", class_="price-1")
             item_price2_tag = item_link.find("p", class_="price").find("span", class_="price-2")
             if item_price1_tag is not None:
                 item_price1 = item_price1_tag.get_text(separator='', strip=True)
-
+                #print(item_price1)
             else:
                 item_price1 = 0
 
@@ -46,6 +48,7 @@ class Scraper:
             url = item_link["href"]
             name = item_name.text
 
+            #print(item_img_url)
             item = {
                 "original_price": item_price1,
                 "sales_price": item_price2,
@@ -55,7 +58,7 @@ class Scraper:
             }
             #print(item)
             result.append(item)
-
+            #break
         return result
 
 
