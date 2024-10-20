@@ -6,6 +6,14 @@ intents.message_content = True
 
 client = discord.Client(intents=intents)
 
+def build_message(item):
+    embed = discord.Embed(type="rich", title=item["name"])
+    #embed.description = "test"
+    embed.set_thumbnail(url=item["image_url"])
+    embed.url = item["url"]
+    embed.add_field(name="원래 가격", value=item["original_price"], inline=True)
+    embed.add_field(name="할인 가격", value=item["sales_price"], inline=True)
+    return embed
 
 @client.event
 async def on_ready():
@@ -23,15 +31,12 @@ async def on_message(message):
         scraper = Scraper()
         results = scraper.do()
 
-        for item in results:
-            embed = discord.Embed(type="rich", title=item["name"])
-            #embed.description = "test"
-            embed.set_thumbnail(url=item["image_url"])
-            embed.url = item["url"]
-            embed.add_field(name="원래 가격", value=item["original_price"], inline=True)
-            embed.add_field(name="할인 가격", value=item["sales_price"], inline=True)
-            await message.channel.send(embed=embed)
+        embeds = []
 
+        for item in results:            
+            embeds.append(build_message(item))
+            
+        await message.channel.send(embeds=embeds)
         #await message.channel.send(results)
 
-client.run('토큰')
+client.run('MTI5NjQ4NTk1NjgwNjkwNTg3Ng.GFuh8j.QzW2PBAHypUCEv6m3HnyJdNXVTR1-HzQu3SZj0')
