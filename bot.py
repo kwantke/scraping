@@ -39,4 +39,4 @@ async def on_message(message):
         await message.channel.send(embeds=embeds)
         #await message.channel.send(results)
 
-client.run('MTI5NjQ4NTk1NjgwNjkwNTg3Ng.GFuh8j.QzW2PBAHypUCEv6m3HnyJdNXVTR1-HzQu3SZj0')
+client.run('토큰')
